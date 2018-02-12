@@ -49,10 +49,14 @@ class Server
     @counter += 1
   end
 
-  def datetime(client, request)
+  def datetime(client, request) # format 11:07AM on Sunday, November 1, 2015
+    body = Time.now.strftime('%r on %A %B %e %Y')
+    respond(client, request, body)
   end
 
   def shutdown(client, request)
+    body = "Total requests: "
+    respond(client, request, body)
   end
 
 end
