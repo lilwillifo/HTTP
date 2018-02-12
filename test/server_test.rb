@@ -1,14 +1,20 @@
-require_relative 'test_helper'
+require 'Faraday'
 require './lib/server'
+require_relative 'test_helper'
 
-# Tests sever class
 class ServerTest < Minitest::Test
-  def test_server_initializes_and_returns_request
-    server = Server.new
-
-    assert_instance_of Server, server
-    assert_instance_of TCPServer, server.tcp_server
-
-    server.tcp_server.close
+  def test_start_server_returns_expected_body
+    response = Faraday.get 'http://127.0.0.1:9292'
+    expected = "<html><head></head><body><footer><pre>\r\nVerb:
+                GET\r\nPath: /\r\nProtocol: HTTP/1.1\r\nHost: Faraday\r\nOrigin:
+                Faraday\r\n</pre></footer></body></html>"
+    assert_equal expected, response.body
   end
+
+  def test_hello_returns_expected_body
+    response = Faraday.get 'http://127.0.0.1:9292/hello'
+    expected = "<html><head></head><body>Hello, World!(#{@number_of_requests})<footer><pre>\r\nVerb: GET\r\nPath: /hello\r\nProtocol: HTTP/1.1\r\nHost: Faraday\r\nOrigin: Faraday\r\n</pre></footer></body></html>"
+    assert_equal expected, response.body
+  end
+
 end
