@@ -4,8 +4,8 @@ require 'socket'
 class Server
   attr_reader :tcp_server, :client
   def initialize
-    @tcp_server = TCPServer.new(9292)
-    @requests = 0
+    @server = TCPServer.new(9292)
+    @request_count = 0
   end
 
   def start
@@ -16,8 +16,7 @@ class Server
   def get_request(client)
     request = Request.new(client)
     request.save_request
-    @requests += 1
+    @request_count += 1
     client.close
   end
-
 end

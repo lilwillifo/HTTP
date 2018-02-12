@@ -6,11 +6,9 @@ class Request
     @client = client
   end
 
-  def document_request
+  def save_request
     while line = @client.gets && !line.chomp.empty?
       @request_lines << line.chomp
     end
   end
-
-
 end
