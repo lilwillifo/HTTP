@@ -23,8 +23,16 @@ class Server
       @accept =
 
       response = "<pre>" + "Hello World!(#{counter})" + "</pre>"
-      footer = "Verb: #{@verb} Path: #{@path} Protocol: #{@protocol} Host: #{@host} Port: 9292 Origin: #{@origin} Accept: "
-      output = "<html><head></head><body>#{response}</body><footer>#{footer}</footer></html>"
+      footer =
+                ["\r\nVerb: #{@verb}",
+                "Path: #{@path}",
+                "Protocol: #{@protocol}",
+                "Host: #{@host}",
+                "Port: 9292",
+                "Origin: #{@origin}",
+                "Accept: \r\n\r\n"].join("\r\n")
+      output = "<html><head></head><body>#{response}</body>"\
+               "<footer>#{footer}</footer></html>"
       headers = ["http/1.1 200 ok",
                 "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
                 "server: ruby",
