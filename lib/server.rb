@@ -14,18 +14,30 @@ class Server
         request_lines << line.chomp
       end
 
+      puts request_lines.inspect
+      @verb = request_lines[0].split(" ")[0]
+      @path = request_lines[0].split(" ")[1]
+      @word = request_lines[0].split(" ")[1].split("=")[1]
+      @protocol = request_lines[0].split(" ")[2]
+      @host = request_lines[1].split(" ")[1]
+      @origin = request_lines[1].split(" ")[1]
+      @user_guess = (client.read(request_lines[3].split(": ")[1].to_i)).split("\r\n")[3].to_i
+
       response = "<pre>" + "Hello World!(#{counter})" + "</pre>"
-      output = "<html><head></head><body>#{response}</body></html>"
+      footer = "Verb: #{@verb}"
+      output = "<html><head></head><body>#{response}</body><footer>#{footer}</footer></html>"
       headers = ["http/1.1 200 ok",
                 "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
                 "server: ruby",
                 "content-type: text/html; charset=iso-8859-1",
                 "content-length: #{output.length}\r\n\r\n"].join("\r\n")
+
       client.puts headers
       client.puts output
       counter += 1
     end
     client.close
   end
+
 
 end

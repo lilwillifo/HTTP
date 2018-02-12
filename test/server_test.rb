@@ -4,6 +4,7 @@ require_relative 'test_helper'
 
 class ServerTest < Minitest::Test
   def test_hello_returns_expected_body
+    skip
     response = Faraday.get 'http://127.0.0.1:9292/'
     expect = '<html><head></head><body><pre>Hello World!(0)</pre></body></html>'
 
@@ -20,4 +21,9 @@ class ServerTest < Minitest::Test
     assert_equal expect, response.body
   end
 
+  def test_diagnostics
+    response = Faraday.get 'http://127.0.0.1:9292'
+    expect = "<html><head></head><body><pre>Hello World!(0)</pre></body><footer>Verb: GET</footer></html>"
+    assert_equal expect, response.body
+  end
 end
