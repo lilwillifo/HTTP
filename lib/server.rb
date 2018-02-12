@@ -1,4 +1,5 @@
 require 'socket'
+require_relative 'request'
 class Server
   def initialize
   @tcp_server = TCPServer.new(9292)
@@ -9,27 +10,15 @@ class Server
     loop do
       client = @tcp_server.accept
 
-      request_lines = []
-      while line = client.gets and !line.chomp.empty?
-        request_lines << line.chomp
-      end
+      save_request(client)
 
-      puts request_lines.inspect
-      @verb = request_lines[0].split(" ")[0]
-      @path = request_lines[0].split(" ")[1]
-      @protocol = request_lines[0].split(" ")[2]
-      @host = request_lines[1].split(" ")[1].split(":")[0]
-      @origin = request_lines[1].split(" ")[1].split(":")[0]
-      @accept =
-
-      response = "<pre>" + "Hello World!(#{counter})" + "</pre>"
-      footer =
-                ["\r\nVerb: #{@verb}",
-                "Path: #{@path}",
-                "Protocol: #{@protocol}",
-                "Host: #{@host}",
-                "Port: 9292",
-                "Origin: #{@origin}",
+      response = '<pre>' + "Hello World!(#{counter})" + '</pre>'
+      footer = ["\r\nVerb: #{@request.verb}",
+                "Path: #{@request.path}",
+                "Protocol: #{@request.protocol}",
+                "Host: #{@request.host}",
+                'Port: 9292',
+                "Origin: #{@request.origin}",
                 "Accept: \r\n\r\n"].join("\r\n")
       output = "<html><head></head><body>#{response}</body>"\
                "<footer>#{footer}</footer></html>"
@@ -46,5 +35,9 @@ class Server
     client.close
   end
 
+  def save_request(client)
+    @request = Request.new(client)
+    @request.save_request
+  end
 
 end
