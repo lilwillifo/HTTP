@@ -1,12 +1,14 @@
-require 'minitest/autorun'
-require 'minitest/pride'
-require 'faraday'
+require_relative 'test_helper'
+require './lib/server'
 
-# test for server class
+# Tests sever class
 class ServerTest < Minitest::Test
+  def test_server_initializes_and_returns_request
+    server = Server.new
 
-  def test_server_responds
-    response = Faraday.get 'http://127.0.0.1:9292/'
-    assert_equal 'Hello, World! (0)', response.body
+    assert_instance_of Server, server
+    assert_instance_of TCPServer, server.tcp_server
+
+    server.tcp_server.close
   end
 end
