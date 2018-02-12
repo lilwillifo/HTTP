@@ -4,42 +4,15 @@ require_relative 'response'
 
 class Server
   def initialize
-  @tcp_server = TCPServer.new(9292)
+    @tcp_server = TCPServer.new(9292)
   end
 
   def start
     counter = 0
     loop do
       client = @tcp_server.accept
-
       save_request(client)
       send_response(client)
-
-      def response
-        '<pre>' + "Hello World!(#{counter})" + '</pre>'
-      end
-
-
-      # response = '<pre>' + "Hello World!(#{counter})" + '</pre>'
-      # footer = ["\r\nVerb: #{@request.verb}",
-      #           "Path: #{@request.path}",
-      #           "Protocol: #{@request.protocol}",
-      #           "Host: #{@request.host}",
-      #           'Port: 9292',
-      #           "Origin: #{@request.origin}",
-      #           "Accept: #{@request.accept}\r\n\r\n"].join("\r\n")
-      #
-      # output = "<html><head></head><body>#{response}</body>"\
-      #          "<footer>#{footer}</footer></html>"
-      #
-      # headers = ["http/1.1 200 ok",
-      #           "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
-      #           "server: ruby",
-      #           "content-type: text/html; charset=iso-8859-1",
-      #           "content-length: #{output.length}\r\n\r\n"].join("\r\n")
-      #
-      # client.puts headers
-      # client.puts output
       counter += 1
     end
     client.close
@@ -54,4 +27,9 @@ class Server
     response = Response.new(client, @request)
     response.send_response
   end
+
+  def response
+    '<pre>' + "Hello World!(#{counter})" + '</pre>'
+  end
+
 end
