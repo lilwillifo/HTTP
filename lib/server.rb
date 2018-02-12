@@ -5,15 +5,14 @@ require_relative 'response'
 class Server
   def initialize
     @tcp_server = TCPServer.new(9292)
+    @counter = 0
   end
 
   def start
-    counter = 0
     loop do
       client = @tcp_server.accept
       save_request(client)
-      send_response(client)
-      counter += 1
+      choose_path(client)
     end
     client.close
   end
@@ -23,13 +22,37 @@ class Server
     @request.save_request
   end
 
-  def send_response(client)
-    response = Response.new(client, @request)
+  def respond(client, request, body)
+    response = Response.new(client, request, body)
     response.send_response
   end
 
-  def response
-    '<pre>' + "Hello World!(#{counter})" + '</pre>'
+  def choose_path(client)
+    if @request.path == '/'
+      root(client, @request)
+    elsif @request.path == '/hello'
+      hello(client, @request)
+    elsif @request.path == '/datetime'
+      datetime(client, @request)
+    elsif @request.path == '/shutdown'
+      shutdown(client, @request)
+    end
+  end
+
+  def root(client, request)
+    respond(client, request, nil)
+  end
+
+  def hello(client, request)
+    body = '<pre>' + "Hello World!(#{@counter})" + '</pre>'
+    respond(client, request, body)
+    @counter += 1
+  end
+
+  def datetime(client, request)
+  end
+
+  def shutdown(client, request)
   end
 
 end
