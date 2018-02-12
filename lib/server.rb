@@ -39,5 +39,4 @@ class Server
     @request = Request.new(client)
     @request.save_request
   end
-
 end

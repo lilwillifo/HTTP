@@ -14,8 +14,4 @@ class Response
     "content-length: #{output.length}\r\n\r\n"].join("\r\n")
   end
 
-  def output
-    "Hello, World! (0)"
-  end
-
 end

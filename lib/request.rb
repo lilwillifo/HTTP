@@ -1,8 +1,7 @@
 require 'pry'
 
 class Request
-  attr_reader :number_of_requests,
-              :request_lines,
+  attr_reader :request_lines,
               :verb,
               :path,
               :protocol,
