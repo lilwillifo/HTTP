@@ -17,14 +17,13 @@ class Server
       puts request_lines.inspect
       @verb = request_lines[0].split(" ")[0]
       @path = request_lines[0].split(" ")[1]
-      @word = request_lines[0].split(" ")[1].split("=")[1]
       @protocol = request_lines[0].split(" ")[2]
-      @host = request_lines[1].split(" ")[1]
-      @origin = request_lines[1].split(" ")[1]
-      @user_guess = (client.read(request_lines[3].split(": ")[1].to_i)).split("\r\n")[3].to_i
+      @host = request_lines[1].split(" ")[1].split(":")[0]
+      @origin = request_lines[1].split(" ")[1].split(":")[0]
+      @accept =
 
       response = "<pre>" + "Hello World!(#{counter})" + "</pre>"
-      footer = "Verb: #{@verb}"
+      footer = "Verb: #{@verb} Path: #{@path} Protocol: #{@protocol} Host: #{@host} Port: 9292 Origin: #{@origin} Accept: "
       output = "<html><head></head><body>#{response}</body><footer>#{footer}</footer></html>"
       headers = ["http/1.1 200 ok",
                 "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
