@@ -24,5 +24,4 @@ class RequestTest < Minitest::Test
 
     assert_equal request.request_lines[0].split[0], request.verb
   end
-
 end

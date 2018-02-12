@@ -6,7 +6,8 @@ class Request
               :path,
               :protocol,
               :host,
-              :origin
+              :origin,
+              :accept
 
   def initialize(client)
     @request_lines = []
@@ -26,6 +27,7 @@ class Request
     @protocol = @request_lines[0].split[2]
     @host = @request_lines[1].split[1].split(':')[0]
     @origin = @request_lines[1].split[1].split(':')[0]
+    @accept = @request_lines[3].split[1]
   end
 
 end
