@@ -5,7 +5,8 @@ require_relative 'response'
 class Server
   def initialize
     @tcp_server = TCPServer.new(9292)
-    @counter = 0
+    @hello_counter = 0
+    @request_count = 0
   end
 
   def start
@@ -25,6 +26,7 @@ class Server
   def respond(client, request, body)
     response = Response.new(client, request, body)
     response.send_response
+    client.close
   end
 
   def choose_path(client)
@@ -40,22 +42,26 @@ class Server
   end
 
   def root(client, request)
+    @request_count += 1
     respond(client, request, nil)
   end
 
   def hello(client, request)
-    body = '<pre>' + "Hello World!(#{@counter})" + '</pre>'
+    @request_count += 1
+    body = '<pre>' + "Hello World!(#{@hello_counter})" + '</pre>'
     respond(client, request, body)
-    @counter += 1
+    @hello_counter += 1
   end
 
-  def datetime(client, request) # format 11:07AM on Sunday, November 1, 2015
+  def datetime(client, request)
+    @request_count += 1
     body = Time.now.strftime('%r on %A %B %e %Y')
     respond(client, request, body)
   end
 
   def shutdown(client, request)
-    body = "Total requests: "
+    @request_count += 1
+    body = "Total requests: #{@request_count}"
     respond(client, request, body)
   end
 
