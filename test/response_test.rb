@@ -20,27 +20,21 @@ class ResponseTest < Minitest::Test
     assert_equal expect, response.body
 
     response = Faraday.get 'http://127.0.0.1:9292/hello'
-    expect = '<html><head></head><body><pre>Hello World!(1)</pre></body>'\
-              "<footer>\r\nVerb: GET\r\nPath: /hello\r\nProtocol: HTTP/1.1\r\n"\
-              "Host: Faraday\r\nPort: 9292\r\nOrigin: Faraday\r\nAccept: */*"\
-              "\r\n\r\n</footer></html>"
+    expect = 'Hello World!(1)'
 
-    assert_equal expect, response.body
+    assert response.body.include?(expect)
   end
 
   def test_datetime
     response = Faraday.get 'http://127.0.0.1:9292/datetime'
-    expect = "<html><head></head><body>#{Time.now.strftime('%r on %A %B %e %Y')}</body>"\
-              "<footer>\r\nVerb: GET\r\nPath: /datetime\r\nProtocol: HTTP/1.1\r\n"\
-              "Host: Faraday\r\nPort: 9292\r\nOrigin: Faraday\r\nAccept: */*"\
-              "\r\n\r\n</footer></html>"
+    expect = Time.now.strftime('%r on %A %B %e %Y')
 
-    assert_equal expect, response.body
+    assert response.body.include?(expect)
   end
 
   def test_wordsearch
     response = Faraday.get 'http://127.0.0.1:9292/wordsearch?hi'
-    expect = "hi is a known word"
+    expect = 'hi is a known word'
 
     assert response.body.include?(expect)
   end
