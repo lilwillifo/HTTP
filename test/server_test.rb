@@ -39,11 +39,4 @@ class ServerTest < Minitest::Test
 
     assert_equal expect, response.body
   end
-
-  def test_shutdown
-    skip
-    response = Faraday.get 'http://127.0.0.1:9292/shutdown'
-
-    assert_equal expect, response.body
-  end
 end

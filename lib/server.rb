@@ -62,6 +62,7 @@ class Server
     @request_count += 1
     body = "Total requests: #{@request_count}"
     respond(client, request, body)
+    tcp_server.close
   end
 
 end
