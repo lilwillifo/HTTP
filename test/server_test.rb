@@ -11,4 +11,12 @@ class ServerTest < Minitest::Test
               "\r\n\r\n</footer></html>"
     assert_equal expect, response.body
   end
+
+  def test_save_request
+    skip
+    server = Server.new
+    client = server.tcp_server.accept
+    request = server.save_request(client)
+    assert_instance_of Request, request
+  end
 end

@@ -3,6 +3,7 @@ require_relative 'request'
 require_relative 'response'
 
 class Server
+  attr_reader :tcp_server
   def initialize
     @tcp_server = TCPServer.new(9292)
   end

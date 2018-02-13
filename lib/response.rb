@@ -38,6 +38,7 @@ end
     hello if request.path == '/hello'
     datetime if request.path == '/datetime'
     shutdown if request.path == '/shutdown'
+    word_search if request.path.include? '/wordsearch'
   end
 
   def root
@@ -58,6 +59,21 @@ end
     @body = "Total requests: #{@request_count}"
     send_response
     tcpserver.close
+  end
+
+  def word_search
+    word = @request.path.split('?')[1]
+    dictionary = read_dictionary
+    @body = if dictionary.include?(word)
+              "#{word} is a known word"
+            else
+              "#{word} ain't a word."
+            end
+    send_response
+  end
+
+  def read_dictionary
+    File.readlines('/usr/share/dict/words').map(&:strip)
   end
 
   def send_response
