@@ -34,15 +34,10 @@ end
 
   def choose_path(request)
     @request_count += 1
-    if request.path == '/'
-      root
-    elsif request.path == '/hello'
-      hello
-    elsif request.path == '/datetime'
-      datetime
-    elsif request.path == '/shutdown'
-      shutdown
-    end
+    root if request.path == '/'
+    hello if request.path == '/hello'
+    datetime if request.path == '/datetime'
+    shutdown if request.path == '/shutdown'
   end
 
   def root
