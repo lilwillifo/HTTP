@@ -63,8 +63,19 @@ end
 
   def word_search
     word = @request.path.split('?')[1]
-    @body = "#{word} is a known word"
+    dictionary = read_dictionary
+    if dictionary.include?(word)
+      @body = "#{word} is a known word"
+    else
+      @body = "#{word} ain't a word."
+    end
     send_response
+  end
+
+  def read_dictionary
+    File.readlines('/usr/share/dict/words').map do |word|
+      word.strip
+    end
   end
 
   def send_response

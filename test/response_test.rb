@@ -37,4 +37,11 @@ class ResponseTest < Minitest::Test
 
     assert_equal expect, response.body
   end
+
+  def test_wordsearch
+    response = Faraday.get 'http://127.0.0.1:9292/wordsearch?hi'
+    expect = "hi is a known word"
+
+    assert response.body.include?(expect)
+  end
 end
