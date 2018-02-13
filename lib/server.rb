@@ -26,7 +26,6 @@ class Server
   def respond(client, request, body)
     response = Response.new(client, request, body)
     response.send_response
-    client.close
   end
 
   def choose_path(client)
