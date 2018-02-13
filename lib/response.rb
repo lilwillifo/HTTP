@@ -5,6 +5,8 @@ class Response
     @client = client
     @request = request
     @body = body
+    @hello_counter = 0
+    @request_count = 0
   end
 
   def headers
@@ -28,6 +30,34 @@ end
   def output
     "<html><head></head><body>#{@body}</body>"\
            "<footer>#{footer}</footer></html>"
+  end
+
+  def choose_path(request)
+    @request_count += 1
+    root if request.path == '/'
+    hello if request.path == '/hello'
+    datetime if request.path == '/datetime'
+    shutdown if request.path == '/shutdown'
+  end
+
+  def root
+    send_response
+  end
+
+  def hello
+    @body = '<pre>' + "Hello World!(#{@hello_counter})" + '</pre>'
+    send_response
+  end
+
+  def datetime
+    @body = Time.now.strftime('%r on %A %B %e %Y')
+    send_response
+  end
+
+  def shutdown
+    @body = "Total requests: #{@request_count}"
+    send_response
+    tcpserver.close
   end
 
   def send_response
