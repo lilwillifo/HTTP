@@ -1,9 +1,9 @@
 require 'Faraday'
 require './lib/request'
-require './lib/server'
 require 'socket'
 require './test/test_helper'
 
+#runner file not required, but this will still work if its on
 class RequestTest < Minitest::Test
   def test_it_exists
     request = Request.new('a client here')

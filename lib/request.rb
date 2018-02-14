@@ -30,4 +30,14 @@ class Request
     @accept = lines[3].split[1]
   end
 
+  def footer
+    ["\r\nVerb: #{verb}",
+     "Path: #{path}",
+     "Protocol: #{protocol}",
+     "Host: #{host}",
+     'Port: 9292',
+     "Origin: #{origin}",
+     "Accept: #{accept}\r\n\r\n"].join("\r\n")
+  end
+
 end

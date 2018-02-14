@@ -3,14 +3,40 @@ require './lib/response'
 require 'socket'
 require_relative 'test_helper'
 
+# run the runner file in one terminal before running this test
 class ResponseTest < Minitest::Test
   def test_it_exists
     response = Response.new('client', 'request')
 
     assert_instance_of Response, response
+    assert response.client == 'client'
+    assert response.request == 'request'
+    assert_nil response.body
+  end
+
+  def test_headers_and_footer
+    response = Response.new('client', Request.new('client'))
+
+    assert_instance_of String, response.headers
+    assert_instance_of String, response.footer
+  end
+
+  def test_output
+    response = Response.new('client', Request.new('client'))
+
+    assert response.output.include?('<html><head></head>')
+  end
+
+  def test_choose_path
+    request = Request.new('client')
+    response = Response.new('client', request)
+    response.choose_path(request)
+
+    assert_equal 1, response.request_count
   end
 
   def test_hello
+    skip
     response = Faraday.get 'http://127.0.0.1:9292/hello'
     expect = '<html><head></head><body><pre>Hello World!(0)</pre></body>'\
               "<footer>\r\nVerb: GET\r\nPath: /hello\r\nProtocol: HTTP/1.1\r\n"\
@@ -32,7 +58,12 @@ class ResponseTest < Minitest::Test
     assert response.body.include?(expect)
   end
 
-  def test_wordsearch
+  def test_read_dictionary
+    response = Response.new('client', 'request')
+    assert_equal 235_886, response.read_dictionary.length
+  end
+
+  def test_word_search
     response = Faraday.get 'http://127.0.0.1:9292/wordsearch?hi'
     expect = 'hi is a known word'
 

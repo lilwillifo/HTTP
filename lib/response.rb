@@ -1,6 +1,7 @@
 require_relative 'request'
 
 class Response
+  attr_reader :client, :request, :body, :request_count
   def initialize(client, request, body = nil)
     @client = client
     @request = request
@@ -18,13 +19,7 @@ class Response
 end
 
   def footer
-    ["\r\nVerb: #{@request.verb}",
-    "Path: #{@request.path}",
-    "Protocol: #{@request.protocol}",
-    "Host: #{@request.host}",
-    'Port: 9292',
-    "Origin: #{@request.origin}",
-    "Accept: #{@request.accept}\r\n\r\n"].join("\r\n")
+    @request.footer
   end
 
   def output
@@ -34,6 +29,7 @@ end
 
   def choose_path(request)
     @request_count += 1
+    return if request.path.nil?
     root if request.path == '/'
     hello if request.path == '/hello'
     datetime if request.path == '/datetime'
@@ -46,6 +42,7 @@ end
   end
 
   def hello
+    @hello_counter += 1
     @body = '<pre>' + "Hello World!(#{@hello_counter})" + '</pre>'
     send_response
   end
