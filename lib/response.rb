@@ -18,9 +18,15 @@ class Response
     "content-length: #{output.length}\r\n\r\n"].join("\r\n")
 end
 
-  def footer
-    @request.footer
-  end
+    def footer
+      ["\r\nVerb: #{@request.verb}",
+       "Path: #{@request.path}",
+       "Protocol: #{@request.protocol}",
+       "Host: #{@request.host}",
+       'Port: 9292',
+       "Origin: #{@request.origin}",
+       "Accept: #{@request.accept}\r\n\r\n"].join("\r\n")
+    end
 
   def output
     "<html><head></head><body>#{@body}</body>"\
@@ -29,12 +35,12 @@ end
 
   def choose_path(request)
     @request_count += 1
-    return if request.path.nil?
-    root if request.path == '/'
-    hello if request.path == '/hello'
-    datetime if request.path == '/datetime'
-    shutdown if request.path == '/shutdown'
-    word_search if request.path.include? '/wordsearch'
+    return if @request.path.nil?
+    root if @request.path == '/'
+    hello if @request.path == '/hello'
+    datetime if @request.path == '/datetime'
+    shutdown if @request.path == '/shutdown'
+    word_search if @request.path.include? '/wordsearch'
   end
 
   def root

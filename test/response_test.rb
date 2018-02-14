@@ -52,6 +52,7 @@ class ResponseTest < Minitest::Test
   end
 
   def test_datetime
+    skip
     response = Faraday.get 'http://127.0.0.1:9292/datetime'
     expect = Time.now.strftime('%r on %A %B %e %Y')
 
@@ -64,6 +65,7 @@ class ResponseTest < Minitest::Test
   end
 
   def test_word_search
+    skip
     response = Faraday.get 'http://127.0.0.1:9292/wordsearch?hi'
     expect = 'hi is a known word'
 
