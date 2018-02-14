@@ -27,12 +27,12 @@ class ResponseTest < Minitest::Test
     assert response.output.include?('<html><head></head>')
   end
 
-  def test_choose_path
+  def test_choose_path_get
     request = Request.new('client')
     response = Response.new('client', request)
-    response.choose_path(request)
+    response.choose_path_get
 
-    assert_equal 1, response.request_count
+    assert_nil request.path
   end
 
   def test_hello
@@ -52,7 +52,6 @@ class ResponseTest < Minitest::Test
   end
 
   def test_datetime
-    skip
     response = Faraday.get 'http://127.0.0.1:9292/datetime'
     expect = Time.now.strftime('%r on %A %B %e %Y')
 
@@ -65,9 +64,15 @@ class ResponseTest < Minitest::Test
   end
 
   def test_word_search
-    skip
     response = Faraday.get 'http://127.0.0.1:9292/wordsearch?hi'
     expect = 'hi is a known word'
+
+    assert response.body.include?(expect)
+  end
+
+  def test_start_game
+    response = Faraday.post 'http://127.0.0.1:9292/startgame'
+    expect = 'Good luck!'
 
     assert response.body.include?(expect)
   end

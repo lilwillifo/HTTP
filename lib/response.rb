@@ -49,10 +49,12 @@ class Response
     datetime if @request.path == '/datetime'
     shutdown if @request.path == '/shutdown'
     word_search if @request.path.include? '/wordsearch'
-    start_game if @request.path == '/startgame'
+    # game if @request.path == '/game'
   end
 
   def choose_path_post
+    return if @request.path.nil?
+    start_game if @request.path == '/startgame'
   end
 
   def root
@@ -94,6 +96,9 @@ class Response
   def send_response
     @client.puts headers
     @client.puts output
+  end
+
+  def game
   end
 
   def start_game
