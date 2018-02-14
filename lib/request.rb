@@ -1,33 +1,33 @@
 require 'pry'
 
 class Request
-  attr_reader :request_lines,
-              :verb,
+  attr_reader :verb,
               :path,
               :protocol,
               :host,
               :origin,
-              :accept
+              :accept,
+              :client
 
   def initialize(client)
-    @request_lines = []
     @client = client
   end
 
   def save_request
+    lines = []
     while (line = @client.gets) && !line.chomp.empty?
-      @request_lines << line.chomp
+      lines << line.chomp
     end
-    parse_request
+    parse_request(lines)
   end
 
-  def parse_request
-    @verb = @request_lines[0].split[0]
-    @path = @request_lines[0].split[1]
-    @protocol = @request_lines[0].split[2]
-    @host = @request_lines[1].split[1].split(':')[0]
-    @origin = @request_lines[1].split[1].split(':')[0]
-    @accept = @request_lines[3].split[1]
+  def parse_request(lines)
+    @verb = lines[0].split[0]
+    @path = lines[0].split[1]
+    @protocol = lines[0].split[2]
+    @host = lines[1].split[1].split(':')[0]
+    @origin = lines[1].split[1].split(':')[0]
+    @accept = lines[3].split[1]
   end
 
 end
