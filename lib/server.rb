@@ -12,7 +12,7 @@ class Server
       client = @tcp_server.accept
       request = Request.new(client)
       request.save_request
-      respond = Response.new(client, request).choose_path(request)
+      respond = Response.new(client, request).check_verb
     end
     client.close
   end

@@ -11,36 +11,48 @@ class Response
   end
 
   def headers
-    ["http/1.1 200 ok",
-    "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
-    "server: ruby",
-    "content-type: text/html; charset=iso-8859-1",
-    "content-length: #{output.length}\r\n\r\n"].join("\r\n")
-end
+    ['http/1.1 200 ok',
+     "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
+     'server: ruby',
+     'content-type: text/html; charset=iso-8859-1',
+     "content-length: #{output.length}\r\n\r\n"].join("\r\n")
+  end
 
-    def footer
-      ["\r\nVerb: #{@request.verb}",
-       "Path: #{@request.path}",
-       "Protocol: #{@request.protocol}",
-       "Host: #{@request.host}",
-       'Port: 9292',
-       "Origin: #{@request.origin}",
-       "Accept: #{@request.accept}\r\n\r\n"].join("\r\n")
-    end
+  def footer
+    ["\r\nVerb: #{@request.verb}",
+     "Path: #{@request.path}",
+     "Protocol: #{@request.protocol}",
+     "Host: #{@request.host}",
+     'Port: 9292',
+     "Origin: #{@request.origin}",
+     "Accept: #{@request.accept}\r\n\r\n"].join("\r\n")
+  end
 
   def output
     "<html><head></head><body>#{@body}</body>"\
            "<footer>#{footer}</footer></html>"
   end
 
-  def choose_path(request)
+  def check_verb
     @request_count += 1
+    if @request.verb == 'GET'
+      choose_path_get
+    elsif @request.verb == 'POST'
+      choose_path_post
+    end
+  end
+
+  def choose_path_get
     return if @request.path.nil?
     root if @request.path == '/'
     hello if @request.path == '/hello'
     datetime if @request.path == '/datetime'
     shutdown if @request.path == '/shutdown'
     word_search if @request.path.include? '/wordsearch'
+    start_game if @request.path == '/startgame'
+  end
+
+  def choose_path_post
   end
 
   def root
@@ -82,5 +94,11 @@ end
   def send_response
     @client.puts headers
     @client.puts output
+  end
+
+  def start_game
+    # game = Game.new
+    @body = 'Good luck!'
+    send_response
   end
 end

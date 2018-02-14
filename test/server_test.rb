@@ -13,7 +13,6 @@ class ServerTest < Minitest::Test
   end
 
   def test_save_request
-    skip
     server = Server.new
     client = server.tcp_server.accept
     request = server.save_request(client)
