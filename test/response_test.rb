@@ -1,7 +1,7 @@
+require_relative 'test_helper'
 require 'Faraday'
 require './lib/response'
 require 'socket'
-require_relative 'test_helper'
 
 # run the runner file in one terminal before running this test
 class ResponseTest < Minitest::Test
@@ -73,6 +73,13 @@ class ResponseTest < Minitest::Test
   def test_start_game
     response = Faraday.post 'http://127.0.0.1:9292/startgame'
     expect = 'Good luck!'
+
+    assert response.body.include?(expect)
+  end
+
+  def test_game
+    response = Faraday.game 'http://127.0.0.1:9292/game'
+    expect = "hi"
 
     assert response.body.include?(expect)
   end

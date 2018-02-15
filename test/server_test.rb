@@ -1,6 +1,6 @@
+require_relative 'test_helper'
 require 'Faraday'
 require './lib/server'
-require_relative 'test_helper'
 
 class ServerTest < Minitest::Test
   def test_diagnostics
@@ -12,10 +12,7 @@ class ServerTest < Minitest::Test
     assert_equal expect, response.body
   end
 
-  def test_save_request
-    server = Server.new
-    client = server.tcp_server.accept
-    request = server.save_request(client)
-    assert_instance_of Request, request
+  def test_start
+  response = Faraday.get 'http://127.0.0.1:9292'
   end
 end

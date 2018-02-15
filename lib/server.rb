@@ -11,7 +11,7 @@ class Server
     loop do
       client = @tcp_server.accept
       request = Request.new(client)
-      request.save_request
+      route = Route.new(client, request, request.verb, request.path)
       respond = Response.new(client, request).check_verb
     end
     client.close

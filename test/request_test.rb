@@ -1,7 +1,7 @@
+require_relative 'test_helper'
 require 'Faraday'
 require './lib/request'
 require 'socket'
-require './test/test_helper'
 
 #runner file not required, but this will still work if its on
 class RequestTest < Minitest::Test

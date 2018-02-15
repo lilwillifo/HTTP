@@ -11,6 +11,7 @@ class Request
 
   def initialize(client)
     @client = client
+    save_request
   end
 
   def save_request

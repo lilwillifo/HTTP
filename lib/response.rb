@@ -1,4 +1,5 @@
 require_relative 'request'
+require_relative 'game'
 
 class Response
   attr_reader :client, :request, :body, :request_count
@@ -31,30 +32,6 @@ class Response
   def output
     "<html><head></head><body>#{@body}</body>"\
            "<footer>#{footer}</footer></html>"
-  end
-
-  def check_verb
-    @request_count += 1
-    if @request.verb == 'GET'
-      choose_path_get
-    elsif @request.verb == 'POST'
-      choose_path_post
-    end
-  end
-
-  def choose_path_get
-    return if @request.path.nil?
-    root if @request.path == '/'
-    hello if @request.path == '/hello'
-    datetime if @request.path == '/datetime'
-    shutdown if @request.path == '/shutdown'
-    word_search if @request.path.include? '/wordsearch'
-    # game if @request.path == '/game'
-  end
-
-  def choose_path_post
-    return if @request.path.nil?
-    start_game if @request.path == '/startgame'
   end
 
   def root
@@ -99,10 +76,13 @@ class Response
   end
 
   def game
+    @body = 'You have taken 3 guesses. Your guesses were: 1(too low!) 100 ' +
+            '(too high) and 50(right on!)'
+    send_response
   end
 
   def start_game
-    # game = Game.new
+    game = Game.new
     @body = 'Good luck!'
     send_response
   end
