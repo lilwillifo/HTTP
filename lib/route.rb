@@ -21,7 +21,7 @@ class Route
 
   def get
     return Response.new(@client, @request) if @path == '/'
-    return Hello.new                       if @path == '/hello'
+    return Hello.new(@client, @request)    if @path == '/hello'
     return DateTime.new                    if @path == '/datetime'
     return Shutdown.new                    if @path == '/shutdown'
     return WordSearch.new                  if @path.include? '/wordsearch'

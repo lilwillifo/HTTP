@@ -11,36 +11,7 @@ class Response
     @request_count = 0
   end
 
-  def headers
-    ['http/1.1 200 ok',
-     "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
-     'server: ruby',
-     'content-type: text/html; charset=iso-8859-1',
-     "content-length: #{output.length}\r\n\r\n"].join("\r\n")
-  end
-
-  def footer
-    ["\r\nVerb: #{@request.verb}",
-     "Path: #{@request.path}",
-     "Protocol: #{@request.protocol}",
-     "Host: #{@request.host}",
-     'Port: 9292',
-     "Origin: #{@request.origin}",
-     "Accept: #{@request.accept}\r\n\r\n"].join("\r\n")
-  end
-
-  def output
-    "<html><head></head><body>#{@body}</body>"\
-           "<footer>#{footer}</footer></html>"
-  end
-
   def root
-    send_response
-  end
-
-  def hello
-    @hello_counter += 1
-    @body = '<pre>' + "Hello World!(#{@hello_counter})" + '</pre>'
     send_response
   end
 
@@ -68,11 +39,6 @@ class Response
 
   def read_dictionary
     File.readlines('/usr/share/dict/words').map(&:strip)
-  end
-
-  def send_response
-    @client.puts headers
-    @client.puts output
   end
 
   def game
