@@ -1,33 +1,17 @@
 require 'pry'
+require './lib/route.rb'
 
 class Request
-  attr_reader :verb,
-              :path,
-              :protocol,
-              :host,
-              :origin,
-              :accept,
-              :client
-
+  attr_reader :client, :lines
   def initialize(client)
     @client = client
-    save_request
+    @lines = []
   end
 
   def save_request
-    lines = []
     while (line = @client.gets) && !line.chomp.empty?
-      lines << line.chomp
+      @lines << line.chomp
     end
-    parse_request(lines)
-  end
-
-  def parse_request(lines)
-    @verb = lines[0].split[0]
-    @path = lines[0].split[1]
-    @protocol = lines[0].split[2]
-    @host = lines[1].split[1].split(':')[0]
-    @origin = lines[1].split[1].split(':')[0]
-    @accept = lines[3].split[1]
+    @lines
   end
 end

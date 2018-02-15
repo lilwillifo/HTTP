@@ -1,8 +1,18 @@
 require_relative 'request'
 
 class Response
-  attr_reader :client, :request, :body, :lines
-  def initialize(client, request, body = nil, lines)
+  attr_reader :client,
+              :request,
+              :body,
+              :lines,
+              :verb,
+              :path,
+              :protocol,
+              :host,
+              :origin,
+              :accept
+
+  def initialize(client, request, lines, body = nil)
     @client = client
     @request = request
     @body = body
@@ -42,8 +52,8 @@ class Response
            "<footer>#{footer}</footer></html>"
   end
 
-  def send_response
-    @client.puts headers
-    @client.puts output
+  def send_response(client)
+    client.puts headers
+    client.puts output
   end
 end
