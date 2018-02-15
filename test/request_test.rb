@@ -19,7 +19,7 @@ class RequestTest < Minitest::Test
   end
 
   def test_save_request
-    skip
+    skip #need a mock client
     server = Server.new
     request = Request.new(server.tcp_server.accept)
 

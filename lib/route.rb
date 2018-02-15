@@ -5,8 +5,9 @@ require './lib/datetime'
 require './lib/shutdown'
 require './lib/wordsearch'
 require './lib/game'
+
 class Route
-  attr_reader :client, :request, :verb, :path, :hello_count, :total_request, :lines
+  attr_reader :request, :verb, :path, :hello_count, :total_request, :lines
   def initialize(client, request, lines)
     @client = client
     @request = request
@@ -28,15 +29,17 @@ class Route
 
   def get
     @hello_count += 1 if @path == '/hello'
-    return Response.new(@client, @request, @lines) if @path == '/'
-    return Hello.new(@client)                      if @path == '/hello'
+    return                                         if @path.nil?
+    return Response.new(@client, @request, @lines)          if @path == '/'
+    return Hello.new                               if @path == '/hello'
     return DateTime.new                            if @path == '/datetime'
-    return Shutdown.new(@client)                   if @path == '/shutdown'
+    return Shutdown.new                            if @path == '/shutdown'
     return WordSearch.new(@path)                   if @path.include? '/wordsearch'
     return Game.new                                if @path == '/game'
   end
 
   def post
+    return if @path.nil?
     return Game.new.start if @path == '/startgame'
   end
 end

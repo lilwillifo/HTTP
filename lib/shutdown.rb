@@ -1,8 +1,8 @@
 class Shutdown
-  def initialize(server)
+  def initialize
     @body = "Total requests: #{@request_count}"
     # send_response
-    @server = server
+    # @server = server
     # @server.close
   end
 end

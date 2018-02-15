@@ -2,6 +2,7 @@ require 'faraday'
 
 # Imitates client requests
 class MockClient
+  # include MockServerClient
   attr_reader :connection, :response
 
   def initialize

@@ -1,16 +1,16 @@
 require_relative 'test_helper'
 require 'Faraday'
 require './lib/response'
+require './lib/request'
 require 'socket'
 
 # run the runner file in one terminal before running this test
 class ResponseTest < Minitest::Test
   def test_it_exists
     lines = ['a','Host: 127.0.0.1:9292','c','d']
-    response = Response.new('client', 'request', lines)
+    response = Response.new('request', lines)
 
     assert_instance_of Response, response
-    assert response.client == 'client'
     assert response.request == 'request'
     assert_nil response.body
     assert_equal lines, response.lines
@@ -18,7 +18,7 @@ class ResponseTest < Minitest::Test
 
   def test_headers_and_footer
     lines = ['a', 'Host: 127.0.0.1:9292', 'c', 'd']
-    response = Response.new('client', 'request', lines)
+    response = Response.new('request', lines)
 
     assert_instance_of String, response.headers
     assert_instance_of String, response.footer
@@ -31,7 +31,7 @@ class ResponseTest < Minitest::Test
              'Accept: */*',
              'Connection: close',
              'Host: 127.0.0.1:9292']
-    response = Response.new('client', 'request', lines)
+    response = Response.new('request', lines)
     response.parse_request(lines)
 
     assert_equal 'GET', response.verb
@@ -49,7 +49,7 @@ class ResponseTest < Minitest::Test
              'Accept: */*',
              'Connection: close',
              'Host: 127.0.0.1:9292']
-    response = Response.new('client', Request.new('client'), lines)
+    response = Response.new(Request.new('client'), lines)
 
     assert response.output.include?('<html><head></head>')
   end

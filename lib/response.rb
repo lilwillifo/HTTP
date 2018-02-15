@@ -1,5 +1,3 @@
-require_relative 'request'
-
 class Response
   attr_reader :client,
               :request,
@@ -12,8 +10,7 @@ class Response
               :origin,
               :accept
 
-  def initialize(client, request, lines, body = nil)
-    @client = client
+  def initialize(request, lines, body = nil)
     @request = request
     @body = body
     @lines = lines
@@ -27,6 +24,7 @@ class Response
     @host = lines[1].split[1].split(':')[0]
     @origin = lines[1].split[1].split(':')[0]
     @accept = lines[3].split[1]
+    send_response
   end
 
   def headers
@@ -52,8 +50,8 @@ class Response
            "<footer>#{footer}</footer></html>"
   end
 
-  def send_response(client)
-    client.puts headers
-    client.puts output
+  def send_response
+    @request.client.puts headers
+    @request.client.puts output
   end
 end
