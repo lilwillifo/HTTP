@@ -1,4 +1,4 @@
-require_relative 'test_helper'
+require './test/test_helper'
 require 'Faraday'
 require './lib/response'
 require './lib/request'
@@ -8,12 +8,12 @@ require 'Faraday'
 
 # run the runner file in one terminal before running this test
 class ResponseTest < Minitest::Test
-
   def setup
     @client = MockClient.new
   end
+
   def test_it_exists
-    lines = ['a','Host: 127.0.0.1:9292','c','d']
+    lines = ['a','Host: 127.0.0.1:9292', 'c', 'd']
     response = Response.new(@client, 'request', lines)
 
     assert_instance_of Response, response
@@ -25,7 +25,7 @@ class ResponseTest < Minitest::Test
   def test_headers_and_footer
     skip
     lines = ['a', 'Host: 127.0.0.1:9292', 'c', 'd']
-    response = Response.new('client','request', lines)
+    response = Response.new('client', 'request', lines)
 
     assert_instance_of String, response.headers
     assert_instance_of String, response.footer
@@ -78,7 +78,7 @@ class ResponseTest < Minitest::Test
 
     assert response.body.include?(expect)
   end
-  
+
   def test_datetime
     skip
     response = Faraday.get 'http://127.0.0.1:9292/datetime'

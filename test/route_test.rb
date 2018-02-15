@@ -91,9 +91,9 @@ class RouteTest < Minitest::Test
              'Accept: */*',
              'Connection: close',
              'Host: 127.0.0.1:9292']
-   route = Route.new(lines)
+    route = Route.new(lines)
 
-   assert_instance_of DatePath, route.get
+    assert_instance_of DatePath, route.get
   end
 
   def test_get_shutdown
