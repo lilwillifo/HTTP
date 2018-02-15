@@ -13,11 +13,25 @@ class Server
   def start
     loop do
       @client = @tcp_server.accept
-      request = Request.new(client)
-      request.save_request
-      route = Route.new(request, request.lines)
+      @lines = save_request
+      send_response
+      @client.close
     end
-    client.close
   end
 
+  def save_request
+    @lines = []
+    while (line = @client.gets) && !line.chomp.empty?
+      @lines << line.chomp
+    end
+    @lines
+  end
+
+  def send_response
+    route = Route.new(@lines)
+    path = route.check_verb
+
+    @client.puts path.headers
+    @client.puts path.output
+  end
 end

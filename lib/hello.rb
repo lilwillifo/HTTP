@@ -1,10 +1,9 @@
 require './lib/response'
 
-class Hello
-  def initialize
-    @hello_counter = 0
+class Hello < Response
+  def initialize(hello_counter, lines)
+    @hello_counter = hello_counter
     @body = "<pre> Hello World!(#{@hello_counter}) </pre>"
-    @hello_counter += 1
-    # send_response
+    parse_request(lines)
   end
 end

@@ -8,10 +8,4 @@ class Request
     @lines = []
   end
 
-  def save_request
-    while (line = @client.gets) && !line.chomp.empty?
-      @lines << line.chomp
-    end
-    @lines
-  end
 end

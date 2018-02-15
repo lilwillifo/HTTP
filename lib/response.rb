@@ -1,7 +1,5 @@
 class Response
-  attr_reader :client,
-              :request,
-              :body,
+  attr_reader :body,
               :lines,
               :verb,
               :path,
@@ -10,11 +8,10 @@ class Response
               :origin,
               :accept
 
-  def initialize(request, lines, body = nil)
-    @request = request
+  def initialize(lines, body = nil)
     @body = body
     @lines = lines
-    parse_request(lines)
+    parse_request(@lines)
   end
 
   def parse_request(lines)
@@ -24,7 +21,6 @@ class Response
     @host = lines[1].split[1].split(':')[0]
     @origin = lines[1].split[1].split(':')[0]
     @accept = lines[3].split[1]
-    send_response
   end
 
   def headers
@@ -50,8 +46,4 @@ class Response
            "<footer>#{footer}</footer></html>"
   end
 
-  def send_response
-    @request.client.puts headers
-    @request.client.puts output
-  end
 end
