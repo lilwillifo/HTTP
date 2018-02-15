@@ -8,4 +8,18 @@ class GameTest < Minitest::Test
 
     assert_instance_of Game, game
   end
+
+  def test_start_game
+    response = Faraday.post 'http://127.0.0.1:9292/startgame'
+    expect = 'Good luck!'
+
+    assert response.body.include?(expect)
+  end
+
+  def test_game
+    response = Faraday.game 'http://127.0.0.1:9292/game'
+    expect = "hi"
+
+    assert response.body.include?(expect)
+  end
 end

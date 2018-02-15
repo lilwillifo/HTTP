@@ -1,5 +1,10 @@
 require 'pry'
 require './lib/response'
+require './lib/hello'
+require './lib/datetime'
+require './lib/shutdown'
+require './lib/wordsearch'
+require './lib/game'
 class Route
   attr_reader :client, :request, :verb, :path
   def initialize(client, request, verb, path)

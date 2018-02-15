@@ -1,6 +1,7 @@
 require 'socket'
-require_relative 'request'
-require_relative 'response'
+require './lib/request'
+require './lib/response'
+require './lib/route'
 
 class Server
   def initialize
@@ -12,7 +13,6 @@ class Server
       client = @tcp_server.accept
       request = Request.new(client)
       route = Route.new(client, request, request.verb, request.path)
-      respond = Response.new(client, request).check_verb
     end
     client.close
   end

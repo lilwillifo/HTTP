@@ -9,4 +9,13 @@ class DateTimeTest < Minitest::Test
 
     assert_instance_of DateTime, datetime
   end
+
+
+    def test_datetime
+      response = Faraday.get 'http://127.0.0.1:9292/datetime'
+      expect = Time.now.strftime('%r on %A %B %e %Y')
+
+      assert response.body.include?(expect)
+    end
+
 end

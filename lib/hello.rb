@@ -1,6 +1,6 @@
-require './lib/response_super'
+require './lib/response'
 
-class Hello < ResponseSuper
+class Hello < Response
   def initialize(client)
     @client = client
     @hello_counter = 0
