@@ -1,15 +1,29 @@
 {
   "Unit Tests": {
     "coverage": {
-      "/Users/margaretwilliford/turing/1module/HTTP/lib/datepath.rb": [
+      "/Users/margaretwilliford/turing/1module/HTTP/lib/wordsearch.rb": [
         1,
         null,
         1,
         1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        null,
         null,
         1,
+        2,
+        2,
+        2,
+        null,
+        0,
+        null,
+        null,
+        null,
         1,
-        1,
+        2,
         null,
         null
       ],
@@ -31,12 +45,12 @@
         null,
         null,
         1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
         null,
         null,
         1,
@@ -65,6 +79,6 @@
         null
       ]
     },
-    "timestamp": 1518729652
+    "timestamp": 1518732369
   }
 }

@@ -96,18 +96,6 @@ class RouteTest < Minitest::Test
     assert_instance_of DatePath, route.get
   end
 
-  def test_get_shutdown
-    lines = ['GET /shutdown HTTP/1.1',
-             'User-Agent: Faraday v0.14.0',
-             'Accept-Encoding: gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-             'Accept: */*',
-             'Connection: close',
-             'Host: 127.0.0.1:9292']
-    route = Route.new(lines)
-
-    assert_instance_of Shutdown, route.get
-  end
-
   def test_get_word_search
     lines = ['GET /wordsearch HTTP/1.1',
              'User-Agent: Faraday v0.14.0',

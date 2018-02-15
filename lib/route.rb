@@ -29,7 +29,7 @@ class Route
     return Response.new(@lines)                    if @path == '/'
     return Hello.new(@hello_count, @lines)         if @path == '/hello'
     return DatePath.new(@lines)                    if @path == '/datetime'
-    return WordSearch.new(@path)                   if @path.include? '/wordsearch'
+    return WordSearch.new(@path, @lines)           if @path.include? '/wordsearch'
     # return game                                    if @path.include? '/game'
   end
 

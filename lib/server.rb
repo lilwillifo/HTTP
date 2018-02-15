@@ -28,17 +28,25 @@ class Server
   end
 
   def send_response
+    if @lines[0].split[1] == '/shutdown'
+      shutdown
+    else
+      route
+    end
+  end
+
+  def route
     route = Route.new(@lines)
     path = route.check_verb
-    if @lines[0].split[1] == '/shutdown'
-      shutdown = Shutdown.new(@tcp_server, @lines)
-      @client.puts shutdown.headers
-      @client.puts shutdown.output
-      @client.close
-      shutdown.close
-    else
       @client.puts path.headers
       @client.puts path.output
-    end
+  end
+
+  def shutdown
+    shutdown = Shutdown.new(@tcp_server, @lines)
+    @client.puts shutdown.headers
+    @client.puts shutdown.output
+    @client.close
+    shutdown.close
   end
 end
