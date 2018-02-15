@@ -5,25 +5,41 @@ require './lib/hello'
 
 class HelloTest < Minitest::Test
   def test_it_exists
-    hello = Hello.new(client)
+    lines = ['GET /hello HTTP/1.1',
+             'User-Agent: Faraday v0.14.0',
+             'Accept-Encoding: gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+             'Accept: */*',
+             'Connection: close',
+             'Host: 127.0.0.1:9292']
+    hello = Hello.new(2, lines)
 
     assert_instance_of Hello, hello
   end
 
-    def test_hello
-      skip
-      response = Faraday.get 'http://127.0.0.1:9292/hello'
-      expect = '<html><head></head><body><pre>Hello World!(0)</pre></body>'\
-                "<footer>\r\nVerb: GET\r\nPath: /hello\r\nProtocol: HTTP/1.1\r\n"\
-                "Host: Faraday\r\nPort: 9292\r\nOrigin: Faraday\r\nAccept: */*"\
-                "\r\n\r\n</footer></html>"
+  def test_attributes
+    lines = ['GET /hello HTTP/1.1',
+             'User-Agent: Faraday v0.14.0',
+             'Accept-Encoding: gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+             'Accept: */*',
+             'Connection: close',
+             'Host: 127.0.0.1:9292']
+    hello = Hello.new(2, lines)
 
-      assert_equal expect, response.body
+    assert_equal 2, hello.hello_counter
+    assert_equal '<pre> Hello World!(2) </pre>', hello.body
+  end
 
-      response = Faraday.get 'http://127.0.0.1:9292/hello'
-      expect = 'Hello World!(1)'
+  def test_parse
+    lines = ['GET /hello HTTP/1.1',
+             'User-Agent: Faraday v0.14.0',
+             'Accept-Encoding: gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+             'Accept: */*',
+             'Connection: close',
+             'Host: 127.0.0.1:9292']
+    hello = Hello.new(2, lines)
 
-      assert response.body.include?(expect)
-    end
+    assert_equal 'GET', hello.verb
+    assert_equal '/hello', hello.path
+  end
 
 end

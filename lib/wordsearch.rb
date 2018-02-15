@@ -4,7 +4,6 @@ class WordSearch
       @path = path
       @word = @path.split('?')[1]
       write_body
-      # send_response
     end
 
     def write_body

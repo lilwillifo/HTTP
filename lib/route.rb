@@ -1,7 +1,7 @@
 require 'pry'
 require './lib/response'
 require './lib/hello'
-require './lib/datetime'
+require './lib/datepath'
 require './lib/shutdown'
 require './lib/wordsearch'
 require './lib/game'
@@ -27,15 +27,22 @@ class Route
     @hello_count += 1 if @path == '/hello'
     return                                         if @path.nil?
     return Response.new(@lines)                    if @path == '/'
-    return Hello.new(@hello_count, @lines)                               if @path == '/hello'
-    return DateTime.new                            if @path == '/datetime'
-    return Shutdown.new                            if @path == '/shutdown'
+    return Hello.new(@hello_count, @lines)         if @path == '/hello'
+    return DatePath.new(@lines)                    if @path == '/datetime'
     return WordSearch.new(@path)                   if @path.include? '/wordsearch'
-    return Game.new                                if @path == '/game'
+    # return game                                    if @path.include? '/game'
   end
 
   def post
     return if @path.nil?
-    return Game.new.start if @path == '/startgame'
+    @game = Game.new.start if @path == '/startgame'
   end
+
+  # def game
+  #   if @path == '/startgame'
+  #     game = Game.new
+  #     game.start
+  #   elsif @path == '/game'
+  #     game
+  # end
 end
