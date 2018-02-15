@@ -24,7 +24,7 @@ class Route
     return Hello.new(@client, @request)    if @path == '/hello'
     return DateTime.new                    if @path == '/datetime'
     return Shutdown.new                    if @path == '/shutdown'
-    return WordSearch.new                  if @path.include? '/wordsearch'
+    return WordSearch.new(@path)           if @path.include? '/wordsearch'
     return Game.new                        if @path == '/game'
   end
 
