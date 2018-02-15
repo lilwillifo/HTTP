@@ -1,8 +1,10 @@
+require_relative 'test_helper'
 require 'Faraday'
 require './lib/request'
+require './lib/server'
 require 'socket'
-require_relative 'test_helper'
 
+#runner file not required, but this will still work if its on
 class RequestTest < Minitest::Test
   def test_it_exists
     request = Request.new('a client here')
@@ -10,19 +12,18 @@ class RequestTest < Minitest::Test
     assert_instance_of Request, request
   end
 
-  def test_save_request
-    skip
-    client = TCPServer.new(9292).accept
-    request = Request.new(client)
+  def test_attribute
+    request = Request.new('client here')
 
-    assert_equal [], request.request_lines
-
-    request.save_request
-
-    assert_equal 'GET / HTTP/1.1', request.request_lines[0]
-
-    request.parse_request
-
-    assert_equal request.request_lines[0].split[0], request.verb
+    assert_equal 'client here', request.client
   end
+
+  def test_save_request
+    skip #need a mock client
+    server = Server.new
+    request = Request.new(server.tcp_server.accept)
+
+    assert_equal [], request.lines
+  end
+
 end
