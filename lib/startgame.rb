@@ -9,6 +9,7 @@ class StartGame < Response
       @body = 'Good luck!'
     else @body = 'Change verb to POST'
     end
+    parse_request(lines)
   end
 
 end

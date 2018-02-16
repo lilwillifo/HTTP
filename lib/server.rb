@@ -55,7 +55,28 @@ class Server
   def game
     verb = @lines[0].split[0]
     game = Game.new(@client, verb, @lines)
+    if verb == 'POST'
+      user_guess
+      game.take_guess(user_guess)
+    end
+    # game_redirect(client)
     @client.puts game.headers
     @client.puts game.output
+  end
+
+  def user_guess
+    @client.read(content_length).split('&')[0].split('=')[1].to_i
+  end
+
+  def parse_request_data
+    @request_data = {}
+    @request_lines.each do |line|
+      data = line.split(': ', 2)
+      @request_data[data[0]] = data[1]
+      end
+  end
+
+  def content_length
+    parse_request_data['Content-Length'].to_i
   end
 end

@@ -7,6 +7,7 @@ class Game < Response
     @client = client
     @verb = verb
     @guesses = []
+    @last_guess = 15
     @number = 15
     parse_request(lines)
     check_verb
@@ -21,9 +22,21 @@ class Game < Response
   end
 
   def guess_summary
-    @body = "You have made #{@guesses.length} guesses."
+    @body = "You have made #{@guesses.length} guesses. Your last guess was "\
+            "#{over_under}"
   end
 
-  def take_guess
+  def over_under
+    if @last_guess > @number
+      'too high!'
+    elsif @last_guess < @number
+      'too low!'
+    else
+      'correct!1!1!!!OMG'
+    end
+  end
+
+  def take_guess(guess)
+    @body = "#{guess}"
   end
 end
