@@ -1,7 +1,6 @@
 require './test/test_helper'
 require 'Faraday'
 require './lib/response'
-require './lib/request'
 require 'socket'
 require './lib/MockClient'
 require 'Faraday'

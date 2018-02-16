@@ -7,16 +7,14 @@ class Game < Response
     @client = client
     @verb = verb
     @count = 0
-    @last_guess = 15
+    @last_guess = rand(0..100)
     @number = 15
     parse_request(lines)
     check_verb
   end
 
   def check_verb
-    if @verb == 'GET'
-      guess_summary
-    end
+    guess_summary if @verb == 'GET'
   end
 
   def guess_summary
