@@ -6,7 +6,7 @@ class Game < Response
   def initialize(client, verb, lines)
     @client = client
     @verb = verb
-    @guesses = []
+    @count = 0
     @last_guess = 15
     @number = 15
     parse_request(lines)
@@ -16,17 +16,15 @@ class Game < Response
   def check_verb
     if @verb == 'GET'
       guess_summary
-    elsif @verb == 'POST'
-      take_guess
     end
   end
 
   def guess_summary
-    @body = "You have made #{@guesses.length} guesses. Your last guess was "\
-            "#{over_under}"
+    @body = "You have made #{@count} guesses. Your last guess was "\
+            "#{high_low}"
   end
 
-  def over_under
+  def high_low
     if @last_guess > @number
       'too high!'
     elsif @last_guess < @number
@@ -37,6 +35,7 @@ class Game < Response
   end
 
   def take_guess(guess)
-    @body = "#{guess}"
+    @count += 1
+    @last_guess = guess
   end
 end
