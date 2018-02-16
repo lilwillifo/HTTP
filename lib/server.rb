@@ -65,11 +65,11 @@ class Server
 
   def game_start
     output = 'Good luck!'
-    headers = ["http/1.1 301 Redirect",
-              "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
-              "server: ruby",
-              "content-type: text/html; charset=iso-8859-1",
-              "content-length: #{output.length}\r\n\r\n"].join("\r\n")
+    headers = ['http/1.1 301 Redirect',
+               "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
+               'server: ruby',
+               'content-type: text/html; charset=iso-8859-1',
+               "content-length: #{output.length}\r\n\r\n"].join("\r\n")
     @client.puts headers
     @client.puts output
   end
@@ -86,15 +86,15 @@ class Server
 
   def user_guess(length)
     guess = @client.read(length).split("\r\n")[3].to_i
-    game_redirect(guess)
+    game_redirect
   end
 
-  def game_redirect(guess)
-    headers = ['http/1.1 302 Redirect',
-               'Location: http://127.0.0.1/game',
-               "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
-               'server: ruby',
-               'content-type: text/html; charset=iso-8859-1\r\n\r\n'].join("\r\n")
+  def game_redirect
+    # headers = ['http/1.1 302 Redirect',
+    #            'Location: http://127.0.0.1/game',
+    #            "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
+    #            'server: ruby',
+    #            'content-type: text/html; charset=iso-8859-1\r\n\r\n'].join("\r\n")
     output = 'test'#@game.guess_summary
 
     @client.puts headers
