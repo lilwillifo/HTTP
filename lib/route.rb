@@ -24,7 +24,7 @@ class Route
     return DatePath.new(@lines)               if @path == '/datetime'
     return WordSearch.new(@path, @lines)      if @path.include? '/wordsearch'
     return StartGame.new(@lines, @verb)       if @path == '/startgame'
-    return Game.new(@lines, @verb)            if @path == '/game'
+    # return Game.new(@lines, @verb)            if @path == '/game'
   end
 
   # def post

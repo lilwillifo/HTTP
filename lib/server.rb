@@ -30,6 +30,8 @@ class Server
   def send_response
     if @lines[0].split[1] == '/shutdown'
       shutdown
+    elsif @lines[0].split[1] == '/game'
+      game
     else
       route
     end
@@ -48,5 +50,12 @@ class Server
     @client.puts shutdown.output
     @client.close
     shutdown.close
+  end
+
+  def game
+    verb = @lines[0].split[0]
+    game = Game.new(@client, verb, @lines)
+    @client.puts game.headers
+    @client.puts game.output
   end
 end
