@@ -37,9 +37,9 @@ class Server
 
   def route
     route = Route.new(@lines)
-    path = route.check_verb
-      @client.puts path.headers
-      @client.puts path.output
+    path = route.check_path
+    @client.puts path.headers
+    @client.puts path.output
   end
 
   def shutdown

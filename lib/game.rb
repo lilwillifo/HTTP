@@ -1,12 +1,21 @@
-class Game
+require './lib/response'
+require 'pry'
 
-  def game
-    @body = 'You have taken 3 guesses. Your guesses were: 1(too low!) 100 ' +
-            '(too high) and 50(right on!)'
-    # send_response
+class Game < Response
+  attr_reader :body
+  def initialize(lines, verb)
+    @body = check_verb
+    @verb = verb
   end
 
-  def start
-    'Good luck!'
+  def check_verb
+    if @verb == 'GET'
+    elsif @verb == 'POST'
+      guess
+    end
+  end
+
+  def guess
+    'Guessing now!'
   end
 end

@@ -10,6 +10,7 @@ class GameTest < Minitest::Test
   end
 
   def test_start_game
+    skip
     response = Faraday.post 'http://127.0.0.1:9292/startgame'
     expect = 'Good luck!'
 
@@ -17,6 +18,7 @@ class GameTest < Minitest::Test
   end
 
   def test_game
+    skip
     response = Faraday.game 'http://127.0.0.1:9292/game'
     expect = "hi"
 
