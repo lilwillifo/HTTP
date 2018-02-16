@@ -1,12 +1,39 @@
-class Game
+require './lib/response'
+require 'pry'
 
-  def game
-    @body = 'You have taken 3 guesses. Your guesses were: 1(too low!) 100 ' +
-            '(too high) and 50(right on!)'
-    # send_response
+class Game < Response
+  attr_reader :body, :lines
+  def initialize(client, verb, lines)
+    @client = client
+    @verb = verb
+    @count = 0
+    @last_guess = rand(0..100)
+    @number = 15
+    parse_request(lines)
+    check_verb
   end
 
-  def start
-    'Good luck!'
+  def check_verb
+    guess_summary if @verb == 'GET'
+  end
+
+  def guess_summary
+    @body = "You have made #{@count} guesses. Your last guess was "\
+            "#{high_low}"
+  end
+
+  def high_low
+    if @last_guess > @number
+      'too high!'
+    elsif @last_guess < @number
+      'too low!'
+    else
+      'correct!1!1!!!OMG'
+    end
+  end
+
+  def take_guess(guess)
+    @count += 1
+    @last_guess = guess
   end
 end

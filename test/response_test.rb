@@ -1,23 +1,22 @@
 require './test/test_helper'
 require 'Faraday'
 require './lib/response'
-require './lib/request'
 require 'socket'
 require './lib/MockClient'
 require 'Faraday'
 
 # run the runner file in one terminal before running this test
 class ResponseTest < Minitest::Test
-  def setup
-    @client = MockClient.new
-  end
-
   def test_it_exists
-    lines = ['a','Host: 127.0.0.1:9292', 'c', 'd']
-    response = Response.new(@client, 'request', lines)
+    lines = ['GET / HTTP/1.1',
+             'User-Agent: Faraday v0.14.0',
+             'Accept-Encoding: gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+             'Accept: */*',
+             'Connection: close',
+             'Host: 127.0.0.1:9292']
+    response = Response.new(lines)
 
     assert_instance_of Response, response
-    assert response.request == 'request'
     assert_nil response.body
     assert_equal lines, response.lines
   end

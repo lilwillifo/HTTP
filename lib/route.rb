@@ -15,34 +15,13 @@ class Route
     @hello_count = 0
   end
 
-  def check_verb
-    if @verb == 'GET'
-      get
-    elsif @verb == 'POST'
-      post
-    end
-  end
-
-  def get
+  def check_path
     @hello_count += 1 if @path == '/hello'
-    return                                         if @path.nil?
-    return Response.new(@lines)                    if @path == '/'
-    return Hello.new(@hello_count, @lines)         if @path == '/hello'
-    return DatePath.new(@lines)                    if @path == '/datetime'
-    return WordSearch.new(@path)                   if @path.include? '/wordsearch'
-    # return game                                    if @path.include? '/game'
+    return                                    if @path.nil?
+    return Response.new(@lines)               if @path == '/'
+    return Hello.new(@hello_count, @lines)    if @path == '/hello'
+    return DatePath.new(@lines)               if @path == '/datetime'
+    return WordSearch.new(@path, @lines)      if @path.include? '/wordsearch'
   end
 
-  def post
-    return if @path.nil?
-    @game = Game.new.start if @path == '/startgame'
-  end
-
-  # def game
-  #   if @path == '/startgame'
-  #     game = Game.new
-  #     game.start
-  #   elsif @path == '/game'
-  #     game
-  # end
 end
